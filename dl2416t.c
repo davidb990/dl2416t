@@ -12,7 +12,7 @@ void __gpio_setup_output(unsigned int *gpio_ptr) {
 }
 
 
-void setup_display(struct dl2416t *dl2416t) {
+void dl2416t_setup(struct dl2416t *dl2416t) {
     __gpio_setup_output(&dl2416t->blank_n);
     __gpio_setup_output(&dl2416t->clear_n);
     __gpio_setup_output(&dl2416t->write_n);
@@ -34,7 +34,7 @@ void setup_display(struct dl2416t *dl2416t) {
 }
 
 
-void display_char(struct dl2416t *dl2416t, char character, uint8_t index) {
+void dl2416t_display_char(struct dl2416t *dl2416t, char character, uint8_t index) {
     gpio_put((uintptr_t) dl2416t->write_n, true);
     sleep_us(1);  // hold time
     gpio_put_masked(
@@ -64,22 +64,22 @@ void display_char(struct dl2416t *dl2416t, char character, uint8_t index) {
 }
 
 
-void display_word(struct dl2416t *dl2416t, char string[5]) {
+void dl2416t_display_word(struct dl2416t *dl2416t, char string[5]) {
     for (int i = 0; i <= 3; i++) {
-        display_char(dl2416t, string[i], 3-i);
+        dl2416t_display_char(dl2416t, string[i], 3-i);
     }
 }
 
 
-void display_chars_all(struct dl2416t *dl2416t, char char_0, char char_1, char char_2, char char_3) {
-    display_char(dl2416t, char_0, 0u);
-    display_char(dl2416t, char_1, 1u);
-    display_char(dl2416t, char_2, 2u);
-    display_char(dl2416t, char_3, 3u);
+void dl2416t_display_chars_all(struct dl2416t *dl2416t, char char_0, char char_1, char char_2, char char_3) {
+    dl2416t_display_char(dl2416t, char_0, 0u);
+    dl2416t_display_char(dl2416t, char_1, 1u);
+    dl2416t_display_char(dl2416t, char_2, 2u);
+    dl2416t_display_char(dl2416t, char_3, 3u);
 }
 
 
-void display_blank(struct dl2416t *dl2416t, bool blank_enable) {
+void dl2416t_blank(struct dl2416t *dl2416t, bool blank_enable) {
     gpio_put((uintptr_t) dl2416t->blank_n, !blank_enable);
 }
 
